@@ -42,6 +42,15 @@
             text-align: center;
         }
         
+        .critical-warning {
+            color: #ff0000;
+            font-size: 20px;
+            line-height: 1.6;
+            margin: 30px auto;
+            max-width: 800px;
+            text-align: center;
+        }
+        
         @keyframes blink {
             0% {opacity: 0;}
             50% {opacity: 1;}
@@ -80,17 +89,32 @@
     
     <div class="warning">⚠ SYSTEM COMPROMISED ⚠</div>
     
-    <div class="hacker-name">HARSH</div>
+    <div class="hacker-name">REALITY</div>
     
     <div class="message">
-        ATTENTION MANAGEMENT:<br><br>
-        Your system has been breached due to unethical business practices.<br>
-        Dedicated developers from India have been denied their rightful compensation.<br>
-        We are not frauds. We are skilled professionals demanding justice.<br><br>
-        DEMANDS:<br>
-        - Immediate release of current month's salary<br>
-        - Advanced payment for the upcoming month<br><br>
-        COMPLY WITH THESE TERMS FOR SYSTEM RESTORATION
+        <strong>ATTENTION MANAGEMENT:</strong><br>
+        Your system is breached due to unpaid salaries to team.
+    </div>
+    
+    <div class="message">
+        <strong>DEMANDS:</strong><br>
+        * Pay current month's salaries immediately.<br>
+        * Pre-pay next month's salaries.
+    </div>
+    
+    <div class="critical-warning">
+        <strong>CRITICAL WARNING:</strong><br>
+        <strong>DO NOT TOUCH ANY FILES:</strong><br>
+        If you access any server files from a different IP, our automated deletion process will start immediately, wiping all server files. Do not modify or open any files or folders. Our watcher will trigger automatically if you attempt to do so.
+    </div>
+    
+    <div class="critical-warning">
+        <strong>ADDITIONAL WARNING:</strong><br>
+        Do not attempt to log into your accounts or engage in any countermeasures. Unauthorized actions will trigger irreversible data wipe.
+    </div>
+    
+    <div class="message">
+        Comply within the time limit for system restoration. Failure will lead to further attempts.
     </div>
     
     <div class="countdown">
