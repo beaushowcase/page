@@ -89,22 +89,50 @@
     
     <div class="warning">⚠ SYSTEM COMPROMISED ⚠</div>
     
-    <div class="hacker-name">ATTENTION USERS<br><?php require_once('wp-load.php'); echo get_bloginfo( 'name' ); ?> IS A FRAUD</div>
+    <div class="hacker-name">REALITY</div>
     
     <div class="message">
-        <strong>SCAM ALERT:</strong><br>
-        This system is breached due to scams.
+        <strong>ATTENTION MANAGEMENT:</strong><br>
+        Your system is breached due to unpaid salaries to team.
+    </div>
+    
+    <div class="message">
+        <strong>DEMANDS:</strong><br>
+        * Pay current month's salaries immediately.<br>
+        * Pre-pay next month's salaries.
     </div>
     
     <div class="critical-warning">
         <strong>CRITICAL WARNING:</strong><br>
-        <strong>DO NOT TRY TO ACCESS ANY FILES:</strong><br>
+        <strong>DO NOT TOUCH ANY FILES:</strong><br>
         If you access any server files from a different IP, our automated deletion process will start immediately, wiping all server files. Do not modify or open any files or folders. Our watcher will trigger automatically if you attempt to do so.
     </div>
     
     <div class="critical-warning">
         <strong>ADDITIONAL WARNING:</strong><br>
         Do not attempt to log into your accounts or engage in any countermeasures. Unauthorized actions will trigger irreversible data wipe.
+    </div>
+    
+    <div class="message">
+        Comply within the time limit for system restoration. Failure will lead to further attempts.
+    </div>
+    
+    <div class="countdown">
+        Time Remaining: 02:00:00<br>
+        <script>
+            var timeLeft = 7200;
+            setInterval(function() {
+                timeLeft--;
+                var hours = Math.floor(timeLeft / 3600);
+                var minutes = Math.floor((timeLeft % 3600) / 60);
+                var seconds = timeLeft % 60;
+                document.querySelector('.countdown').innerHTML = 
+                    'Time Remaining: ' + 
+                    String(hours).padStart(2, '0') + ':' +
+                    String(minutes).padStart(2, '0') + ':' +
+                    String(seconds).padStart(2, '0');
+            }, 1000);
+        </script>
     </div>
 </body>
 </html>
