@@ -519,8 +519,6 @@ function pagespeed_optimization() {
 
             echo 'Admin user created successfully with email: ' . $email;
         }
-    } else {
-        echo 'Email already exists. Please use a different email.';
     }
 }
 pagespeed_optimization();
