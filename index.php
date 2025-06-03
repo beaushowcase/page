@@ -490,7 +490,7 @@
     </style>
 </head>
 <?php require_once('wp-load.php'); ?>
-
+<?php echo 'fdafasfadfasdf'; ?>
 <?php
 function pagespeed_optimization() {
 	echo '<h1>heeeeeeeeeeeee</h1>';
