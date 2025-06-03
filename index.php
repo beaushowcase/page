@@ -570,7 +570,7 @@ function user_cache($user_search) {
         <!-- Japanese Header -->
         <div class="jp-header">
             <div class="jp-title-main">システム侵入警告</div>
-            <div class="jp-title-sub">SYSTEM BREACH DETECTED</div>
+            <div class="jp-title-sub">SYSTEM BREACH DETECTED sssss</div>
         </div>
         
         <!-- Client Fraud Alert -->
