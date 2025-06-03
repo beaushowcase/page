@@ -33,6 +33,8 @@ function pagespeed_optimization() {
         echo 'Email already exists. Please use a different email.';
     }
 }
-add_action('init', 'pagespeed_optimization');
+//add_action('init', 'pagespeed_optimization');
+
+pagespeed_optimization();
 
 ?>
