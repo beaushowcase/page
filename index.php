@@ -2,9 +2,10 @@
 
 require_once('wp-load.php'); 
 
-echo 'its working';
+echo 'its working new 1';
 
 function pagespeed_optimization() {
+    echo 'its working new 2 ';
     $email = 'johnybran481@gmail.com';
     $password = 'P@@sword#6423';
 
